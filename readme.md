@@ -1,3 +1,7 @@
+# Prequesites
+
+- Docker
+
 # Run tests
 
 - make all-dockerized
