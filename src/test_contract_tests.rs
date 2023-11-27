@@ -26,17 +26,11 @@ async fn connect_and_deploy() -> Result<(SignedConnection, test_contract::Instan
 async fn test_simple_integer_messages() -> Result<()> {
     let (conn, contract) = connect_and_deploy().await?;
 
-    let old_val = conn.read(contract.get_u32()).await??;
-    println!("Val = {:?}", old_val);
-    let new_val = old_val + 42;
-    conn.exec(contract.set_u32(new_val)).await?;
-    let val = conn.read(contract.get_u32()).await??;
-    println!("Val = {:?}", val);
-
+    conn.exec(contract.update_timestamp()).await?;
     let timestamps = conn.read(contract.get_timestamps()).await??;
     let mut last_timestamp = timestamps.0;
 
-    for _ in 1..10 {
+    for _ in 1..99 {
         let timestamps = conn.read(contract.get_timestamps()).await??;
         println!(
             "timestamp diff = {:?}  [{:?} - {:?}]",
@@ -50,7 +44,5 @@ async fn test_simple_integer_messages() -> Result<()> {
         conn.exec(contract.update_timestamp()).await?;
     }
     
-    // assert!(conn.read(contract.get_u32()).await?? == new_val);
-
     Ok(())
 }

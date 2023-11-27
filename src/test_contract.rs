@@ -4,8 +4,8 @@ use scale::Encode as _;
 
 #[allow(dead_code)]
 pub const CODE_HASH: [u8; 32] = [
-    242, 81, 130, 86, 84, 165, 109, 126, 74, 239, 165, 179, 228, 52, 29, 131, 63, 233, 226, 92, 82,
-    83, 233, 5, 165, 255, 77, 229, 183, 147, 51, 59,
+    29, 24, 200, 24, 110, 220, 67, 212, 217, 141, 188, 3, 133, 0, 239, 218, 41, 104, 205, 103, 168,
+    197, 255, 125, 87, 129, 102, 34, 59, 46, 115, 91,
 ];
 
 #[derive(Debug, Clone, PartialEq, Eq, scale::Encode, scale::Decode)]
@@ -45,8 +45,6 @@ pub fn upload() -> ink_wrapper_types::UploadCall {
 }
 
 impl Instance {
-    /// Example docs for a constructor.
-    /// They are multiline.
     #[allow(dead_code, clippy::too_many_arguments)]
     pub fn new() -> ink_wrapper_types::InstantiateCall<Self> {
         let data = vec![155, 174, 157, 94];
@@ -57,26 +55,6 @@ impl Instance {
     pub fn default() -> ink_wrapper_types::InstantiateCall<Self> {
         let data = vec![237, 75, 157, 27];
         ink_wrapper_types::InstantiateCall::new(CODE_HASH, data)
-    }
-
-    ///  Example docs for a message.
-    ///  They are multiline.
-    #[allow(dead_code, clippy::too_many_arguments)]
-    pub fn get_u32(
-        &self,
-    ) -> ink_wrapper_types::ReadCall<Result<u32, ink_wrapper_types::InkLangError>> {
-        let data = vec![217, 45, 11, 204];
-        ink_wrapper_types::ReadCall::new(self.account_id, data)
-    }
-
-    #[allow(dead_code, clippy::too_many_arguments)]
-    pub fn set_u32(&self, an_u32: u32) -> ink_wrapper_types::ExecCall {
-        let data = {
-            let mut data = vec![246, 7, 184, 246];
-            an_u32.encode_to(&mut data);
-            data
-        };
-        ink_wrapper_types::ExecCall::new(self.account_id, data)
     }
 
     #[allow(dead_code, clippy::too_many_arguments)]
