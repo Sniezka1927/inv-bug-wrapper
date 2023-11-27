@@ -6,54 +6,36 @@ mod test_contract {
     #[ink(storage)]
     #[derive(Default)]
     pub struct TestContract {
-        u32_val: u32,
         last_timestamp: u128,
         value: u128,
-
     }
 
     impl TestContract {
-        /// Example docs for a constructor.
-        /// They are multiline.
         #[ink(constructor)]
         pub fn new() -> Self {
             Self {
-                ..Default::default()
+                last_timestamp: Self::env().block_timestamp() as u128,
+                value: u128::default(),
             }
         }
 
         #[ink(constructor)]
         pub fn default() -> Self {
             Self {
-                ..Default::default()
+                last_timestamp: Self::env().block_timestamp() as u128,
+                value: u128::default(),
             }
-        }
-    
-        /// Example docs for a message.
-        /// They are multiline.
-        #[ink(message)]
-        pub fn get_u32(&self) -> u32 {
-            self.u32_val
-        }
-
-        #[ink(message)]
-        pub fn set_u32(&mut self, an_u32: u32) {
-            self.u32_val = an_u32;
         }
 
         #[ink(message)]
         pub fn update_timestamp(&mut self) {
             let current_timestamp = self.env().block_timestamp().clone() as u128;
             let timestamp_delta = (current_timestamp - self.last_timestamp) as u128;
-            let timestamp_delta = 100;
 
-            // let value = 1000000000000000000000000000000 * timestamp_delta / 100;
-            let value = (1000000000000000000000000000000 * timestamp_delta) / 1000000000000;
+            let multiplication = 1000000000000000000000000000000u128.checked_mul(timestamp_delta).unwrap_or_else(|| panic!("Multiplication overflow"));
+            let division = multiplication.checked_div(1000000000000).unwrap_or_else(|| panic!("Division overflow"));
 
-            if value == 0 {
-                ink::env::debug_println!("Value is zero");
-            }
-
+            let value = division;
             self.last_timestamp = current_timestamp as u128;
             self.value = value;
         }
