@@ -5,8 +5,7 @@
 # Run tests
 
 - make all-dockerized
-- cargo test --show-output
-
+- cargo test -- --show-output
 
 If there's and error while running `make all-dockerized` run
 
