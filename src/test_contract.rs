@@ -4,9 +4,17 @@ use scale::Encode as _;
 
 #[allow(dead_code)]
 pub const CODE_HASH: [u8; 32] = [
-    29, 24, 200, 24, 110, 220, 67, 212, 217, 141, 188, 3, 133, 0, 239, 218, 41, 104, 205, 103, 168,
-    197, 255, 125, 87, 129, 102, 34, 59, 46, 115, 91,
+    59, 162, 18, 232, 100, 83, 152, 48, 6, 86, 25, 223, 245, 168, 150, 160, 63, 115, 120, 159, 97,
+    96, 226, 121, 141, 75, 245, 75, 115, 161, 229, 218,
 ];
+
+#[derive(Debug, Clone, PartialEq, Eq, scale::Encode, scale::Decode)]
+pub enum TestError {
+    MULOverflow(),
+    DIVOverflow(),
+    ADDOverflow(),
+    SUBOverflow(),
+}
 
 #[derive(Debug, Clone, PartialEq, Eq, scale::Encode, scale::Decode)]
 pub enum NoChainExtension {}
@@ -55,6 +63,30 @@ impl Instance {
     pub fn default() -> ink_wrapper_types::InstantiateCall<Self> {
         let data = vec![237, 75, 157, 27];
         ink_wrapper_types::InstantiateCall::new(CODE_HASH, data)
+    }
+
+    #[allow(dead_code, clippy::too_many_arguments)]
+    pub fn update_timestamp_diffrent_operations_mul(&self) -> ink_wrapper_types::ExecCall {
+        let data = vec![194, 136, 165, 198];
+        ink_wrapper_types::ExecCall::new(self.account_id, data)
+    }
+
+    #[allow(dead_code, clippy::too_many_arguments)]
+    pub fn update_timestamp_diffrent_operations_sub(&self) -> ink_wrapper_types::ExecCall {
+        let data = vec![33, 173, 171, 96];
+        ink_wrapper_types::ExecCall::new(self.account_id, data)
+    }
+
+    #[allow(dead_code, clippy::too_many_arguments)]
+    pub fn update_timestamp_diffrent_operations_add(&self) -> ink_wrapper_types::ExecCall {
+        let data = vec![169, 123, 87, 171];
+        ink_wrapper_types::ExecCall::new(self.account_id, data)
+    }
+
+    #[allow(dead_code, clippy::too_many_arguments)]
+    pub fn update_timestamp_without_store(&self) -> ink_wrapper_types::ExecCall {
+        let data = vec![227, 188, 246, 24];
+        ink_wrapper_types::ExecCall::new(self.account_id, data)
     }
 
     #[allow(dead_code, clippy::too_many_arguments)]

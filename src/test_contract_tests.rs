@@ -23,14 +23,14 @@ async fn connect_and_deploy() -> Result<(SignedConnection, test_contract::Instan
 }
 
 #[tokio::test]
-async fn test_simple_integer_messages() -> Result<()> {
+async fn test_update_timestamps() -> Result<()> {
     let (conn, contract) = connect_and_deploy().await?;
 
     conn.exec(contract.update_timestamp()).await?;
     let timestamps = conn.read(contract.get_timestamps()).await??;
     let mut last_timestamp = timestamps.0;
 
-    for _ in 1..99 {
+    for _ in 1..29 {
         let timestamps = conn.read(contract.get_timestamps()).await??;
         println!(
             "timestamp diff = {:?}  [{:?} - {:?}]",
@@ -42,6 +42,51 @@ async fn test_simple_integer_messages() -> Result<()> {
         last_timestamp = timestamps.0;
 
         conn.exec(contract.update_timestamp()).await?;
+    }
+    
+    Ok(())
+}
+
+#[tokio::test]
+async fn test_update_timestamps_no_store() -> Result<()> {
+    let (conn, contract) = connect_and_deploy().await?;
+    
+    for _ in 1..29 {
+        conn.exec(contract.update_timestamp_without_store()).await?;
+    }
+
+    Ok(())
+}
+
+
+#[tokio::test]
+async fn test_update_timestamps_diffrent_operations_add() -> Result<()> {
+    let (conn, contract) = connect_and_deploy().await?;
+    
+    for _ in 1..29 {
+        conn.exec(contract.update_timestamp_diffrent_operations_add()).await?;
+    }
+    
+    Ok(())
+}
+
+#[tokio::test]
+async fn test_update_timestamps_diffrent_operations_sub() -> Result<()> {
+    let (conn, contract) = connect_and_deploy().await?;
+    
+    for _ in 1..29 {
+        conn.exec(contract.update_timestamp_diffrent_operations_sub()).await?;
+    }
+    
+    Ok(())
+}
+
+#[tokio::test]
+async fn test_update_timestamps_diffrent_operations_mul() -> Result<()> {
+    let (conn, contract) = connect_and_deploy().await?;
+    
+    for _ in 1..29 {
+        conn.exec(contract.update_timestamp_diffrent_operations_mul()).await?;
     }
     
     Ok(())

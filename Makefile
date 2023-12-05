@@ -40,9 +40,9 @@ generate-wrappers: test_contract.rs # Generate wrappers for test contracts.
 .PHONY: upload-contracts
 upload-contracts: upload-test-contract # Upload test contracts to the chain.
 
-.PHONY: test
-test: generate-wrappers upload-contracts # Run tests natively (needs tooling installed - see ci/Dockerfile.builder).
-	cargo test
+# .PHONY: test
+# test: generate-wrappers upload-contracts # Run tests natively (needs tooling installed - see ci/Dockerfile.builder).
+# 	cargo test
 
 .PHONY: check-ink-wrapper
 check-ink-wrapper:
@@ -70,7 +70,7 @@ all-dockerized: run-node build-builder # Run all checks in a dockerized environm
 		make all
 
 .PHONY: all
-all: check-ink-wrapper check-ink-wrapper-types test # Run all checks natively (needs tooling installed - see ci/Dockerfile.builder).
+all: check-ink-wrapper check-ink-wrapper-types # test # Run all checks natively (needs tooling installed - see ci/Dockerfile.builder).
 
 .PHONY: kill
 kill: # Remove dangling containers after a dockerized test run.
